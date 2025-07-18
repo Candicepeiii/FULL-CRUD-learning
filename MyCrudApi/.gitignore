@@ -1,0 +1,19 @@
+# Build
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# VSCode/JetBrains settings
+.vscode/
+.idea/
+
+# Others
+*.log
+*.swp
