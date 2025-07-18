@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyCrudApi.Models
+namespace MyCrudApi.Entity
 {
-  //TODO: Move this to Entity folder
     public class Product
     {
       public int Id { get; set; }
@@ -13,6 +12,10 @@ namespace MyCrudApi.Models
 
       [Range(0.01, 99999.99, ErrorMessage = "Product price must between 0.01 to 99999.99")]
       public decimal Price { get; set; }
+
+      public bool IsDeleted { get; set; } = false;
+
+      public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
 

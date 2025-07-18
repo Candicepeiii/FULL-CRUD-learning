@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MyCrudApi.Data;
-using MyCrudApi.Models;
+using MyCrudApi.DTOs;
+using MyCrudApi.Entity;
+using MyCrudApi.Services;
 
 namespace MyCrudApi.Controllers;
 
@@ -9,74 +9,56 @@ namespace MyCrudApi.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly ProductService _productService;
 
-  //TODO: Try to use product service inject to here and have dbcontext use only on the service
-  //TODO: Service should return productDTO to controller
-    public ProductsController(AppDbContext context)
+    public ProductsController(ProductService productService)
     {
-        _context = context;
+        _productService = productService;
     }
 
     // GET: api/products
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts()
     {
-        return await _context.Products.ToListAsync();
+        var products = await _productService.GetAllProductsAsync();
+        return Ok(products);
     }
 
-    // GET: api/products/5
+    // GET: api/products/1
     [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> GetProduct(int id)
+    public ActionResult<ProductDTO> GetProduct(int id)
     {
-        var product = await _context.Products.FindAsync(id);
-        if (product == null) return NotFound();
-        return product;
+        var product = _productService.GetProductById(id);
+        if (product == null)
+            return NotFound();
+        return Ok(product);
     }
 
     // POST: api/products
     [HttpPost]
     [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)] // ✅ 顯示 400 錯誤
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+        var created = await _productService.CreateProductAsync(product);
+        return CreatedAtAction(nameof(GetProduct), new { id = created.Id }, created);
     }
 
-    // PUT: api/products/5
+    // PUT: api/products/1
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(int id, Product product)
     {
-        if (id != product.Id) return BadRequest();
-
-        _context.Entry(product).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!_context.Products.Any(p => p.Id == id))
-                return NotFound();
-            throw;
-        }
-
+        var success = await _productService.UpdateProductAsync(id, product);
+        if (!success) return BadRequest();
         return NoContent();
     }
 
-    // DELETE: api/products/5
+    // DELETE: api/products/1
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct(int id)
     {
-        var product = await _context.Products.FindAsync(id);
-        if (product == null) return NotFound();
-
-        _context.Products.Remove(product);
-        await _context.SaveChangesAsync();
-
+        var success = await _productService.DeleteProductAsync(id);
+        if (!success) return NotFound();
         return NoContent();
     }
 }

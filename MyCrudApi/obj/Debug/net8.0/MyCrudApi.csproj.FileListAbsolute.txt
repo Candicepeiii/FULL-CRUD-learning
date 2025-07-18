@@ -167,3 +167,4 @@
 /Users/candicepeiii/FULL CRUD learning/MyCrudApi/obj/Debug/net8.0/MyCrudApi.pdb
 /Users/candicepeiii/FULL CRUD learning/MyCrudApi/obj/Debug/net8.0/MyCrudApi.genruntimeconfig.cache
 /Users/candicepeiii/FULL CRUD learning/MyCrudApi/obj/Debug/net8.0/ref/MyCrudApi.dll
+/Users/candicepeiii/FULL CRUD learning/MyCrudApi/obj/Debug/net8.0/MyCrudApi.sourcelink.json

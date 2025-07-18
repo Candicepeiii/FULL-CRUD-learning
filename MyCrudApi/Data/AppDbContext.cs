@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MyCrudApi.Models; // 引用 Product 類別所在 namespace
+using MyCrudApi.Entity;
 
 namespace MyCrudApi.Data
 {
