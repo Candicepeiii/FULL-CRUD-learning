@@ -9,8 +9,5 @@ namespace MyCrudApi.Entity
         [Required]
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
-
-        // Navigation property for all related products
-        public ICollection<Product>? Products { get; set; }
     }
 }
