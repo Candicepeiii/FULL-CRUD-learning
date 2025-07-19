@@ -44,12 +44,22 @@ namespace MyCrudApi.Services
         }
 
 
-        public async Task<Product> CreateProductAsync(Product product)
+        public async Task<Product> CreateProductAsync(CreateProductDTO dto)
         {
+            var product = new Product
+            {
+                Name = dto.Name,
+                Price = dto.Price,
+                CategoryId = dto.CategoryId,
+                CreatedAt = DateTime.UtcNow,
+                IsDeleted = false
+            };
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return product;
         }
+
 
         public async Task<bool> UpdateProductAsync(int id, Product product)
         {
