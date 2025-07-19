@@ -38,10 +38,10 @@ public class ProductsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Product>> CreateProduct(Product product)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO dto)
     {
-        var created = await _productService.CreateProductAsync(product);
-        return CreatedAtAction(nameof(GetProduct), new { id = created.Id }, created);
+        var newProduct = await _productService.CreateProductAsync(dto);
+        return CreatedAtAction(nameof(GetProduct), new { id = newProduct.Id }, newProduct);
     }
 
     // PUT: api/products/1
