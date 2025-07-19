@@ -20,7 +20,7 @@ namespace MyCrudApi.Entity
       public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
       // Foreign Key
-      public int? CategoryId { get; set; }
+      public int CategoryId { get; set; }
 
       // Navigation Property
       public Category? Category { get; set; }
