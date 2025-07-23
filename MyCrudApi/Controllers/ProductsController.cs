@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyCrudApi.DTOs;
 using MyCrudApi.Entity;
@@ -7,7 +8,7 @@ namespace MyCrudApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController : ControllerBase
+public class ProductsController: ControllerBase
 {
     private readonly ProductService _productService;
 
@@ -17,6 +18,7 @@ public class ProductsController : ControllerBase
     }
 
     // GET: api/products
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts()
     {
@@ -25,6 +27,7 @@ public class ProductsController : ControllerBase
     }
 
     // GET: api/products/1
+    [Authorize]
     [HttpGet("{id}")]
     public ActionResult<ProductDTO> GetProduct(int id)
     {
@@ -35,6 +38,7 @@ public class ProductsController : ControllerBase
     }
 
     // POST: api/products
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -45,6 +49,7 @@ public class ProductsController : ControllerBase
     }
 
     // PUT: api/products/1
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(int id, Product product)
     {
@@ -54,6 +59,7 @@ public class ProductsController : ControllerBase
     }
 
     // DELETE: api/products/1
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct(int id)
     {
